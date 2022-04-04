@@ -5,56 +5,51 @@
 
 #include "vertex.h"
 
-void *two(void *data, void __attribute__((unused))*private)
-{
-	int *a = data;
-	//pthread_t tid = pthread_self();
-	//printf("\ttwo %d\n", *a);
-	free(a);
+void *two(void *data, void __attribute__((unused)) *private) {
+    int *a = data;
+    free(a);
 
-	return NULL;
+    return NULL;
 }
 
-void *produce(void __attribute__((unused))*data, void *private)
-{
-	int *i = private;
-	int *tmp = NULL;
+void *produce(void __attribute__((unused)) *data, void *private) {
+    int *i = private;
+    int *tmp = NULL;
 
-	if (*i > 10000000) {
-		printf("%lu quit\n", pthread_self());
-		return VERTEX_QUIT;
-	}
+    if (*i > 10000000) {
+        printf("%lu quit\n", pthread_self());
+        return VERTEX_QUIT;
+    }
 
-	tmp = malloc(sizeof(int));
-	*tmp = *i;
+    tmp = malloc(sizeof(int));
+    *tmp = *i;
 
-	*i = *i+1;
+    *i = *i + 1;
 
-	return tmp;
+    return tmp;
 }
 
-int main(void)
-{
-	int i = 0;
-	int j = 0;
+int main(void) {
+    int i = 0;
+    int j = 0;
 
-	struct vertex *producer1 = vertices(0, produce, &i);
-	struct vertex *producer2 = vertices(0, produce, &j);
-	struct vertex *merge = vertices(20, two, NULL);
-	printf("producer1 %p\n", (void *)producer1);
-	printf("producer2 %p\n", (void *)producer2);
-	printf("merge %p\n", (void *)merge);
+    struct vertex *producer1 = vertices(0, produce, &i);
+    struct vertex *producer2 = vertices(0, produce, &j);
+    struct vertex *merge = vertices(20, two, NULL);
+    printf("producer1 %p\n", (void *) producer1);
+    printf("producer2 %p\n", (void *) producer2);
+    printf("merge %p\n", (void *) merge);
 
-	edge(producer1, merge);
-	edge(producer2, merge);
+    edge(producer1, merge);
+    edge(producer2, merge);
 
-	vertex_start(producer1);
-	vertex_start(producer2);
+    vertex_start(producer1);
+    vertex_start(producer2);
 
-	vertex_stop(producer1);
-	vertex_stop(producer2);
+    vertex_stop(producer1);
+    vertex_stop(producer2);
 
-	printf("%d %d\n", i, j);
+    printf("%d %d\n", i, j);
 
-	return 0;
+    return 0;
 }
