@@ -2,6 +2,7 @@
 #define RING_H_WXOABQJJ
 
 #include "stdatomic.h"
+
 #define RING_LIMIT 1024
 
 struct ring {

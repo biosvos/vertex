@@ -133,9 +133,9 @@ static void *thread(void *data) {
         clock_gettime(CLOCK_REALTIME, &ts);
         start = as_nanoseconds(&ts);
         if (v_input) {
-            item = vtx->process(item, vtx->private);
+            item = vtx->process(item, vtx->context);
         } else {
-            item = vtx->process(vtx->state, vtx->private);
+            item = vtx->process(vtx->state, vtx->context);
         }
         clock_gettime(CLOCK_REALTIME, &ts);
         end = as_nanoseconds(&ts);
@@ -177,7 +177,7 @@ static struct vertex_input *vertex_input_setup() {
     return v_input;
 }
 
-struct vertex *vertices(int nr, void *(*func)(void *, void *), void *private) {
+struct vertex *vertices(int nr, void *(*func)(void *, void *), void *context) {
     struct vertex *vtx = NULL;
     size_t memsize = 0;
     struct vertex_input *v_input = NULL;
@@ -206,7 +206,7 @@ struct vertex *vertices(int nr, void *(*func)(void *, void *), void *private) {
 
     vtx->nr_thread = nr;
     vtx->v_input = v_input;
-    vtx->private = private;
+    vtx->context = context;
     vtx->process = func;
     atomic_init(&vtx->ref_cnt, 0);
 

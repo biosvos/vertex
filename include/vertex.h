@@ -1,8 +1,11 @@
-#ifndef VERTEX_H_T3DBWYBC
-#define VERTEX_H_T3DBWYBC
+#ifndef VERTEX_H
+#define VERTEX_H
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #include <sys/types.h>
-#include "stdatomic.h"
 #include "ring.h"
 
 struct vertex_input {
@@ -15,9 +18,9 @@ struct vertex {
     struct vertex *outvtx;
     struct vertex_input *v_input;
 
-    void *(*process)(void *item, void *private);
+    void *(*process)(void *item, void *context);
 
-    void *private;
+    void *context;
     atomic_int ref_cnt; // out 기준?
     void *state;
 
@@ -32,7 +35,7 @@ struct vertex {
 
 #define vertex(cb, pr) vertices(1, cb, pr)
 
-struct vertex *vertices(int nr, void *(*func)(void *, void *), void *private);
+struct vertex *vertices(int nr, void *(*func)(void *, void *), void *context);
 
 void edge(struct vertex *from, struct vertex *to);
 
@@ -42,4 +45,8 @@ void vertex_stop(struct vertex *vtx);
 
 void vertex_start(struct vertex *vtx);
 
-#endif /* end of include guard: VERTEX_H_T3DBWYBC */
+#ifdef __cplusplus
+}
+#endif
+
+#endif /* end of include guard: VERTEX_H */

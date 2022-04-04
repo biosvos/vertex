@@ -88,6 +88,7 @@
 #define	ATOMIC_VAR_INIT(value)		(value)
 #define	atomic_init(obj, value)		__c11_atomic_init(obj, value)
 #else
+#undef ATOMIC_VAR_INIT
 #define	ATOMIC_VAR_INIT(value)		{ .__val = (value) }
 #define	atomic_init(obj, value) do {					\
 	(obj)->__val = (value);						\
@@ -171,7 +172,7 @@ typedef enum memory_order memory_order;
  * 7.17.6 Atomic integer types.
  */
 
-typedef _Atomic(_Bool)			atomic_bool;
+//typedef _Atomic(_Bool)			atomic_bool;
 typedef _Atomic(char)			atomic_char;
 typedef _Atomic(signed char)		atomic_schar;
 typedef _Atomic(unsigned char)		atomic_uchar;
@@ -352,7 +353,7 @@ typedef _Atomic(uintmax_t)		atomic_uintmax_t;
  * 7.17.8 Atomic flag type and operations.
  */
 
-typedef atomic_bool			atomic_flag;
+//typedef atomic_bool			atomic_flag;
 
 #define	ATOMIC_FLAG_INIT		ATOMIC_VAR_INIT(0)
 
