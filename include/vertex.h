@@ -3,7 +3,7 @@
 
 #include <sys/types.h>
 #include "stdatomic.h"
-#include "ring/ring.h"
+#include "ring.h"
 
 struct vertex_input {
     struct ring input;

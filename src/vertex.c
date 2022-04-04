@@ -6,7 +6,7 @@
 #include <string.h>
 #include <time.h>
 
-#include "ring/ring.h"
+#include "ring.h"
 #include "vertex.h"
 
 static int vertex_ref_inc(struct vertex *vtx) {
